@@ -15,10 +15,14 @@ const BASE_URL = "https://lldev.thespacedevs.com/2.3.0";
 // - Calls the callback function and passes the results array
 function getUpcomingLaunches() {
   // TODO: Implement XHR GET request
+  const status = document.getElementById("status");
+  status.textContent = "Loading...";
   axios.get(BASE_URL + "/launches/upcoming/").then(function (response) {
     populateDropdown(response.data.results)
+    status.textContent = ""
   }).catch(function (error) {
-    console.error("Error loading upcoming launches:", error)
+    console.error("Error loading upcoming launches: ", error)
+    status.textContent = "Error loading upcoming launches: " + error;
   });
 
 }
@@ -56,10 +60,14 @@ document.getElementById("launchDropdown").addEventListener("change", function ()
 // - Parses the response and passes the launch object to the callback
 function getLaunchDetails(launchId) {
   // TODO: Implement XHR GET request for a single launch
+  const status = document.getElementById("status");
+  status.textContent = "Loading...";
   axios.get(BASE_URL + "/launches/" + launchId + "/").then(function (response) {
     displayLaunchInfo(response.data);
+    status.textContent = ""
   }).catch(function (error) {
-    console.log("Error loading launch details:", error);
+    console.log("Error loading launch details: ", error);
+    status.textContent = "Error loading launch details: " + error;
   });
 
 }
