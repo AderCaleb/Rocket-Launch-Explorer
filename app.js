@@ -45,7 +45,7 @@ function populateDropdown(launches) {
 
     launchDropdown.appendChild(option);
   });
-  
+
 }
 
 // Step 3: Add event listener to #launchDropdown
@@ -54,6 +54,8 @@ function populateDropdown(launches) {
 document.getElementById("launchDropdown").addEventListener("change", function () {
   // TODO: Get selected launchId
   // TODO: Call getLaunchDetails
+  const launchId = this.value;
+  getLaunchDetails(launchId, displayLaunchInfo);
 });
 
 // Step 4: Create getLaunchDetails(launchId, callback)
@@ -61,6 +63,19 @@ document.getElementById("launchDropdown").addEventListener("change", function ()
 // - Parses the response and passes the launch object to the callback
 function getLaunchDetails(launchId, callback) {
   // TODO: Implement XHR GET request for a single launch
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("GET", BASE_URL + "/launches/" + launchId + "/")
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) 
+    {
+      const launch = JSON.parse(xhr.responseText);
+      callback(launch);
+    }
+  };
+  xhr.send();
+
 }
 
 // Step 5: Create displayLaunchInfo(launch)
