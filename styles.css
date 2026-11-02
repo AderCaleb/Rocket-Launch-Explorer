@@ -1,2 +1,28 @@
 /* Part 3: Add custom styling here (colors, fonts, layout, spacing).
    The starter provides no styles. */
+body {
+   margin: 0;
+   padding: 1.25rem 2.5rem;
+   font-family: 'Courier New', Courier, monospace;
+   background-image: url(img/space.jpg);
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-color: black;
+}
+
+.content {
+   text-align: center;
+   max-width: 75rem;
+   margin: 0 auto;
+   background-color: black;
+   color: white;
+}
+
+.content img {
+   width: 70rem;
+   height: auto;
+}
+
+.content #status {
+   color: lightcoral;
+}
