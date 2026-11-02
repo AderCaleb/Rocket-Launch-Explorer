@@ -13,20 +13,13 @@ const BASE_URL = "https://lldev.thespacedevs.com/2.3.0";
 // - Makes a GET request to BASE_URL + "/launches/upcoming/"
 // - Parses the response
 // - Calls the callback function and passes the results array
-function getUpcomingLaunches(callback) {
+function getUpcomingLaunches() {
   // TODO: Implement XHR GET request
-  const xhr = new XMLHttpRequest();
-
-  xhr.open("GET", BASE_URL + "/launches/upcoming/");
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) 
-    {
-      const data = JSON.parse(xhr.responseText);
-      callback(data.results);
-    }
-  };
-  xhr.send();
+  axios.get(BASE_URL + "/launches/upcoming/").then(function (response) {
+    populateDropdown(response.data.results)
+  }).catch(function (error) {
+    console.error("Error loading upcoming launches:", error)
+  });
 
 }
 
@@ -55,26 +48,19 @@ document.getElementById("launchDropdown").addEventListener("change", function ()
   // TODO: Get selected launchId
   // TODO: Call getLaunchDetails
   const launchId = this.value;
-  getLaunchDetails(launchId, displayLaunchInfo);
+  getLaunchDetails(launchId);
 });
 
 // Step 4: Create getLaunchDetails(launchId, callback)
 // - Makes a GET request to BASE_URL + "/launches/" + launchId + "/"
 // - Parses the response and passes the launch object to the callback
-function getLaunchDetails(launchId, callback) {
+function getLaunchDetails(launchId) {
   // TODO: Implement XHR GET request for a single launch
-  const xhr = new XMLHttpRequest();
-
-  xhr.open("GET", BASE_URL + "/launches/" + launchId + "/")
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) 
-    {
-      const launch = JSON.parse(xhr.responseText);
-      callback(launch);
-    }
-  };
-  xhr.send();
+  axios.get(BASE_URL + "/launches/" + launchId + "/").then(function (response) {
+    displayLaunchInfo(response.data);
+  }).catch(function (error) {
+    console.log("Error loading launch details:", error);
+  });
 
 }
 
@@ -136,7 +122,7 @@ function displayLaunchInfo(launch) {
 }
 
 // Final step: kick off the flow
-getUpcomingLaunches(populateDropdown);
+getUpcomingLaunches();
 
 // ---------------------------------------------------------------
 // PART 2: Axios and promises (refactor after Part 1 is committed)
