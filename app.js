@@ -85,6 +85,54 @@ function getLaunchDetails(launchId, callback) {
 function displayLaunchInfo(launch) {
   // TODO: Display mission name and description
   // TODO: Display the rocket image
+  const missionDetails = document.getElementById("missionDetails");
+  const rocket = document.getElementById("rocket");
+
+  // Clear previous launch information
+  missionDetails.textContent = "";
+  rocket.textContent = "";
+
+  // Display launch name and description
+  const launchName = document.createElement("h2");
+  launchName.textContent = launch.name;
+  
+  const description = document.createElement("p");
+  // If launch.mission is True
+  if (launch.mission) 
+  {
+    // If launch.mission.description is True
+    if (launch.mission.description) 
+    {
+      description.textContent = launch.mission.description;
+    // If launch.mission.description is Flase
+    } else 
+    {
+      description.textContent = "No mission description available.";
+    }
+  // If launch.mission is False
+  } else 
+  {
+    description.textContent = "No mission description available."
+  }
+
+  missionDetails.appendChild(launchName);
+  missionDetails.appendChild(description);
+
+  // Display rocket image
+  // If launch.rocket and launch.rocket.configuration and launch.rocket.configuration.image and launch.rocket.configuration.image.image_url are all True
+  if (launch.rocket && launch.rocket.configuration && launch.rocket.configuration.image && launch.rocket.configuration.image.image_url) 
+  {
+    const img = document.createElement("img");
+
+    img.src = launch.rocket.configuration.image.image_url;
+    img.alt = launch.rocket.configuration.name || "Rocket image";
+
+    rocket.appendChild(img);
+  // If even one of these -> launch.rocket and launch.rocket.configuration and launch.rocket.configuration.image and launch.rocket.configuration.image.image_url is False
+  } else 
+  {
+    rocket.textContent = "No rocket image available."
+  }
 }
 
 // Final step: kick off the flow
